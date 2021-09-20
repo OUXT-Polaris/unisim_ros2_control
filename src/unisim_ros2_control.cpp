@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <urdf_parser/urdf_parser.h>
+
+// #include <regex>
 #include <unisim_ros2_control/unisim_ros2_control.hpp>
 
 namespace unisim_ros2_control
@@ -24,5 +27,19 @@ UniSimRos2ControlComponent::UniSimRos2ControlComponent(const rclcpp::NodeOptions
 void UniSimRos2ControlComponent::robotDescriptionCallback(
   const std_msgs::msg::String::SharedPtr description)
 {
+  std::string urdf_string = description->data;
+  const auto urdf = urdf::parseURDF(urdf_string);
+  std::vector<urdf::LinkSharedPtr> links;
+  urdf->getLinks(links);
+  for (auto & link : links) {
+    if (link->visual->geometry->type == urdf::Geometry::MESH) {
+      std::cout << link->visual->material_name << std::endl;
+    }
+  }
+  // std::regex re(R"(<mesh filename="*")");
+  // std::regex re(R"("package://*")");
 }
 }  // namespace unisim_ros2_control
+
+#include <rclcpp_components/register_node_macro.hpp>
+RCLCPP_COMPONENTS_REGISTER_NODE(unisim_ros2_control::UniSimRos2ControlComponent)

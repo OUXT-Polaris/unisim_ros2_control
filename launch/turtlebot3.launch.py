@@ -23,9 +23,11 @@ def generate_robot_description(model="burger"):
     urdf = os.path.join(
         get_package_share_directory("turtlebot3_description"), "urdf", urdf_file_name
     )
+    print(urdf)
     with open(urdf, "r") as infp:
         robot_desc = infp.read()
     rsp_params = {"robot_description": robot_desc}
+    return rsp_params
 
 
 def generate_launch_description():
@@ -35,7 +37,7 @@ def generate_launch_description():
                 package="robot_state_publisher",
                 executable="robot_state_publisher",
                 output="screen",
-                parameters=[generate_launch_description()],
+                parameters=[generate_robot_description()],
             )
         ]
     )

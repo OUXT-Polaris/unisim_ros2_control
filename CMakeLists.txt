@@ -19,8 +19,23 @@ endif()
 find_package(ament_cmake_auto REQUIRED)
 
 ament_auto_find_build_dependencies()
-ament_auto_add_library(unisim_ros2_control_component
+ament_auto_add_library(unisim_ros2_control_component SHARED
   src/unisim_ros2_control.cpp
+)
+
+rclcpp_components_register_nodes(unisim_ros2_control_component
+  "unisim_ros2_control::UniSimRos2ControlComponent")
+
+ament_auto_add_executable(unisim_ros2_control_node
+  src/unisim_ros2_control.cpp
+  src/unisim_ros2_control_node.cpp
+)
+
+#############
+## Install ##
+#############
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
