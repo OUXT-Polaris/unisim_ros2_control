@@ -11,3 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+#include <unisim_ros2_control/unisim_ros2_control.hpp>
+
+namespace unisim_ros2_control
+{
+UniSimRos2ControlComponent::UniSimRos2ControlComponent(const rclcpp::NodeOptions & options)
+: Node("unisim_ros2_control", options)
+{
+}
+
+void UniSimRos2ControlComponent::robotDescriptionCallback(
+  const std_msgs::msg::String::SharedPtr description)
+{
+}
+}  // namespace unisim_ros2_control
