@@ -31,6 +31,17 @@ ament_auto_add_executable(unisim_ros2_control_node
   src/unisim_ros2_control_node.cpp
 )
 
+install(TARGETS
+  unisim_ros2_control_node
+  DESTINATION lib/unisim_ros2_control
+)
+install(TARGETS
+  unisim_ros2_control_component
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+ament_export_libraries(unisim_ros2_control_component)
+
 #############
 ## Install ##
 #############

@@ -38,6 +38,11 @@ def generate_launch_description():
                 executable="robot_state_publisher",
                 output="screen",
                 parameters=[generate_robot_description()],
+            ),
+            Node(
+                package="unisim_ros2_control",
+                executable="unisim_ros2_control_node",
+                output="screen",
             )
         ]
     )

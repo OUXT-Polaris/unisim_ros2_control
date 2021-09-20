@@ -58,11 +58,19 @@ extern "C" {
 }  // extern "C"
 #endif
 
+#include <urdf_parser/urdf_parser.h>
+
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
 
 namespace unisim_ros2_control
 {
+class RobotDescriptionQos : public rclcpp::QoS
+{
+public:
+  explicit RobotDescriptionQos(std::size_t depth = 1) : rclcpp::QoS(depth) { transient_local(); }
+};
+
 class UniSimRos2ControlComponent : public rclcpp::Node
 {
 public:
@@ -71,6 +79,7 @@ public:
 
 private:
   void robotDescriptionCallback(const std_msgs::msg::String::SharedPtr description);
+  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr description_sub_;
 };
 }  // namespace unisim_ros2_control
 

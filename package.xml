@@ -13,7 +13,6 @@
   <depend>rclcpp_components</depend>
   <depend>ament_cmake_auto</depend>
   <depend>std_msgs</depend>
-  <depend>urdfdom</depend>
   <exec_depend>turtlebot3_description</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
