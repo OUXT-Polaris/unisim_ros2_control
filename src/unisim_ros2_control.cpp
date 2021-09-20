@@ -74,6 +74,18 @@ void UniSimRos2ControlComponent::makeDirectory(const std::string & path)
   }
 }
 
+void UniSimRos2ControlComponent::copyModelFile(const std::string & from, const std::string & to)
+{
+  const boost::filesystem::path from_path(from);
+  const boost::filesystem::path to_path(to);
+  boost::filesystem::copy_file(from, to);
+}
+
+std::string UniSimRos2ControlComponent::getExtension(const std::string & path)
+{
+  return boost::filesystem::path(path).extension().generic_string();
+}
+
 void UniSimRos2ControlComponent::robotDescriptionCallback(
   const std_msgs::msg::String::SharedPtr description)
 {
@@ -87,7 +99,8 @@ void UniSimRos2ControlComponent::robotDescriptionCallback(
   std::string robot_name = doc.child("robot").attribute("name").as_string();
   RCLCPP_INFO_STREAM(get_logger(), "parsed URDF for " << robot_name);
   makeDirectory(urdf_output_directory_ + "/" + robot_name);
-  std::string urdf_path = urdf_output_directory_ + "/" + robot_name + "output.urdf";
+  std::string urdf_path = urdf_output_directory_ + "/" + robot_name + "/output.urdf";
+  size_t index = 0;
   for (auto & element : doc.child("robot")) {
     std::string element_name = element.name();
     if (element_name == "link") {
@@ -98,12 +111,21 @@ void UniSimRos2ControlComponent::robotDescriptionCallback(
           element.child("visual").child("geometry").child("mesh").attribute("filename").as_string();
         filename = resolvePath(filename);
         RCLCPP_INFO_STREAM(get_logger(), "mesh filepath was resolved, filename = " << filename);
+        copyModelFile(
+          filename, urdf_output_directory_ + "/" + robot_name + "/" + std::to_string(index) +
+                      getExtension(filename));
+        std::string replace_path = std::to_string(index) + getExtension(filename);
+        element.child("visual")
+          .child("geometry")
+          .child("mesh")
+          .attribute("filename")
+          .set_value(replace_path.c_str());
+        index = index + 1;
       }
     }
   }
-  std::cout << urdf_path << std::endl;
-  // doc.save_file(urdf_path.c_str(), "  ");
-  // RCLCPP_INFO_STREAM(get_logger(), "URDF file was generated at " << urdf_path);
+  doc.save_file(urdf_path.c_str(), "  ");
+  RCLCPP_INFO_STREAM(get_logger(), "URDF file was generated at " << urdf_path);
 }
 
 }  // namespace unisim_ros2_control

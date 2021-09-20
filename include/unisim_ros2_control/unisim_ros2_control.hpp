@@ -82,6 +82,8 @@ private:
   void robotDescriptionCallback(const std_msgs::msg::String::SharedPtr description);
   std::string resolvePath(std::string filename);
   void makeDirectory(const std::string & path = "/tmp/unisim_ros2_control");
+  void copyModelFile(const std::string & from, const std::string & to);
+  std::string getExtension(const std::string & path);
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr description_sub_;
   std::string urdf_output_directory_;
 };
