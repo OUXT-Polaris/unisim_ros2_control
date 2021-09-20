@@ -60,6 +60,7 @@ extern "C" {
 
 #include <urdf_parser/urdf_parser.h>
 
+#include <pugixml.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
 
@@ -79,7 +80,10 @@ public:
 
 private:
   void robotDescriptionCallback(const std_msgs::msg::String::SharedPtr description);
+  std::string resolvePath(std::string filename);
+  void makeDirectory(const std::string & path = "/tmp/unisim_ros2_control");
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr description_sub_;
+  std::string urdf_output_directory_;
 };
 }  // namespace unisim_ros2_control
 
