@@ -22,18 +22,18 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
-    urdf_path = os.path.join(
-        get_package_share_directory("turtlebot3_description"),
-        "urdf",
-        "turtlebot3_burger.urdf",
-    )
     return launch.LaunchDescription(
         [
-            Node(
-                package="robot_state_publisher",
-                executable="robot_state_publisher",
-                output="both",
-                arguments=[urdf_path],
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    [
+                        os.path.join(
+                            get_package_share_directory("wamv_description"),
+                            "launch",
+                            "wamv_description.launch.py",
+                        )
+                    ]
+                )
             ),
             Node(
                 package="unisim_ros2_control",

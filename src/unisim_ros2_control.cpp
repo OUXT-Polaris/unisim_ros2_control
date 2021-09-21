@@ -111,15 +111,17 @@ void UniSimRos2ControlComponent::robotDescriptionCallback(
           element.child("visual").child("geometry").child("mesh").attribute("filename").as_string();
         filename = resolvePath(filename);
         RCLCPP_INFO_STREAM(get_logger(), "mesh filepath was resolved, filename = " << filename);
-        copyModelFile(
-          filename, urdf_output_directory_ + "/" + robot_name + "/" + std::to_string(index) +
-                      getExtension(filename));
-        std::string replace_path = std::to_string(index) + getExtension(filename);
+        /*
+        std::string replace_path = urdf_output_directory_ + "/" + robot_name + "/" +
+                                   std::to_string(index) + getExtension(filename);
+                                  */
+        // copyModelFile(filename, replace_path);
+        std::string replace_uri = "file://" + filename;
         element.child("visual")
           .child("geometry")
           .child("mesh")
           .attribute("filename")
-          .set_value(replace_path.c_str());
+          .set_value(replace_uri.c_str());
         index = index + 1;
       }
     }
