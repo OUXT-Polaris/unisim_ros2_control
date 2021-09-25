@@ -19,21 +19,28 @@ import launch
 from launch_ros.actions import Node
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+import xacro
 
+def generate_urdf():
+    share_dir_path = os.path.join(get_package_share_directory("unisim_ros2_control"))
+    xacro_path = os.path.join(share_dir_path, "xacro", "whill_modelc.xacro")
+    urdf_path = os.path.join(share_dir_path, "xacro", "whill_modelc.urdf")
+    doc = xacro.process_file(xacro_path)
+    robot_desc = doc.toprettyxml(indent='  ')
+    f = open(urdf_path, 'w')
+    f.write(robot_desc)
+    f.close()
+    return urdf_path
 
 def generate_launch_description():
-    urdf_path = os.path.join(
-        get_package_share_directory("turtlebot3_description"),
-        "urdf",
-        "turtlebot3_burger.urdf",
-    )
+
     return launch.LaunchDescription(
         [
             Node(
                 package="robot_state_publisher",
                 executable="robot_state_publisher",
                 output="both",
-                arguments=[urdf_path],
+                arguments=[generate_urdf()],
             ),
             Node(
                 package="unisim_ros2_control",

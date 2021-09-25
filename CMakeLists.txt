@@ -49,7 +49,7 @@ ament_export_libraries(unisim_ros2_control_component)
 #############
 ## Install ##
 #############
-install(DIRECTORY launch
+install(DIRECTORY launch xacro
   DESTINATION share/${PROJECT_NAME}
 )
 

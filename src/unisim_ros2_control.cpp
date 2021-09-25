@@ -100,7 +100,6 @@ void UniSimRos2ControlComponent::robotDescriptionCallback(
   RCLCPP_INFO_STREAM(get_logger(), "parsed URDF for " << robot_name);
   makeDirectory(urdf_output_directory_ + "/" + robot_name);
   std::string urdf_path = urdf_output_directory_ + "/" + robot_name + "/output.urdf";
-  size_t index = 0;
   for (auto & element : doc.child("robot")) {
     std::string element_name = element.name();
     if (element_name == "link") {
@@ -111,18 +110,26 @@ void UniSimRos2ControlComponent::robotDescriptionCallback(
           element.child("visual").child("geometry").child("mesh").attribute("filename").as_string();
         filename = resolvePath(filename);
         RCLCPP_INFO_STREAM(get_logger(), "mesh filepath was resolved, filename = " << filename);
-        /*
-        std::string replace_path = urdf_output_directory_ + "/" + robot_name + "/" +
-                                   std::to_string(index) + getExtension(filename);
-                                  */
-        // copyModelFile(filename, replace_path);
         std::string replace_uri = "file://" + filename;
         element.child("visual")
           .child("geometry")
           .child("mesh")
           .attribute("filename")
           .set_value(replace_uri.c_str());
-        index = index + 1;
+      }
+      if (
+        element.child("collision") && element.child("collision").child("geometry") &&
+        element.child("collision").child("geometry").child("mesh")) {
+        std::string filename =
+          element.child("collision").child("geometry").child("mesh").attribute("filename").as_string();
+        filename = resolvePath(filename);
+        RCLCPP_INFO_STREAM(get_logger(), "mesh filepath was resolved, filename = " << filename);
+        std::string replace_uri = "file://" + filename;
+        element.child("collision")
+          .child("geometry")
+          .child("mesh")
+          .attribute("filename")
+          .set_value(replace_uri.c_str());
       }
     }
   }

@@ -16,7 +16,6 @@
   <depend>pugixml-dev</depend>
   <depend>boost</depend>
   <depend>ament_index_cpp</depend>
-  <exec_depend>turtlebot3_description</exec_depend>
   <exec_depend>wamv_description</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
