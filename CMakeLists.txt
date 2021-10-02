@@ -49,6 +49,20 @@ externalproject_add(unisim_openapi_interface
   INSTALL_COMMAND ""
 )
 
+install(
+  DIRECTORY
+    ${CMAKE_CURRENT_BINARY_DIR}/unisim_openapi_interface-prefix/src/unisim_openapi_interface/lib
+  DESTINATION
+    lib/unisim_ros2_control
+)
+
+install(
+  DIRECTORY
+    ${CMAKE_CURRENT_BINARY_DIR}/unisim_openapi_interface-prefix/src/unisim_openapi_interface
+  DESTINATION
+    include/unisim_ros2_control
+)
+
 install(TARGETS
   unisim_ros2_control_node
   DESTINATION lib/unisim_ros2_control
@@ -72,4 +86,4 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_package()
+ament_auto_package()
