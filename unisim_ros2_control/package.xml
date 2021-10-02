@@ -16,7 +16,7 @@
   <depend>pugixml-dev</depend>
   <depend>boost</depend>
   <depend>ament_index_cpp</depend>
-  <depend>libcpprest-dev</depend>
+  <depend>unisim_client</depend>
   <exec_depend>wamv_description</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>

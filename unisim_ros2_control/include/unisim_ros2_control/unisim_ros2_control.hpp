@@ -63,7 +63,6 @@ extern "C" {
 #include <pugixml.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
-// #include <unisim_ros2_control/unisim_openapi_interface/ApiClient.h>
 
 namespace unisim_ros2_control
 {
