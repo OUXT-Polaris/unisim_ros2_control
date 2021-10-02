@@ -120,8 +120,11 @@ void UniSimRos2ControlComponent::robotDescriptionCallback(
       if (
         element.child("collision") && element.child("collision").child("geometry") &&
         element.child("collision").child("geometry").child("mesh")) {
-        std::string filename =
-          element.child("collision").child("geometry").child("mesh").attribute("filename").as_string();
+        std::string filename = element.child("collision")
+                                 .child("geometry")
+                                 .child("mesh")
+                                 .attribute("filename")
+                                 .as_string();
         filename = resolvePath(filename);
         RCLCPP_INFO_STREAM(get_logger(), "mesh filepath was resolved, filename = " << filename);
         std::string replace_uri = "file://" + filename;
