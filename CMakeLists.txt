@@ -35,6 +35,20 @@ ament_auto_add_executable(unisim_ros2_control_node
 )
 target_link_libraries(unisim_ros2_control_node pugixml ${Boost_LIBRARIES})
 
+set(cmake_commands)
+set(cmake_configure_args -DCPPREST_ROOT=/usr/include/cpprest)
+include(ExternalProject)
+externalproject_add(unisim_openapi_interface
+  GIT_REPOSITORY https://github.com/OUXT-Polaris/unisim_openapi_interface.git
+  GIT_TAG cpp_client
+  TIMEOUT 6000
+  ${cmake_commands}
+  CMAKE_ARGS
+    ${cmake_configure_args}
+  STEP_TARGETS build
+  INSTALL_COMMAND ""
+)
+
 install(TARGETS
   unisim_ros2_control_node
   DESTINATION lib/unisim_ros2_control
