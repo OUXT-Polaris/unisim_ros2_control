@@ -53,7 +53,6 @@ install(
   DIRECTORY
     ${CMAKE_CURRENT_BINARY_DIR}/unisim_openapi_interface-prefix/src/unisim_openapi_interface/lib
   DESTINATION
-    lib/unisim_ros2_control
 )
 
 install(
