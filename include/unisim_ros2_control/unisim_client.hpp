@@ -41,15 +41,32 @@ public:
     configure(address, static_cast<std::uint16_t>(port));
   }
 
-#define DISPATCH(NAME)                                              \
-  template <typename... Ts>                                         \
-  decltype(auto) NAME(Ts &&... xs)                                  \
-  {                                                                 \
-    assert(api_ptr_);                                               \
-    return api_ptr_->NAME##Post(std::forward<decltype(xs)>(xs)...); \
+#define DISPATCH(NAME)             \
+  decltype(auto) NAME()            \
+  {                                \
+    assert(api_ptr_);              \
+    return api_ptr_->NAME##Post(); \
+  }
+  DISPATCH(stop)
+#undef DISPATCH
+
+#define DISPATCH(NAME, REQUEST_TYPE)                         \
+  decltype(auto) NAME(std::shared_ptr<REQUEST_TYPE> request) \
+  {                                                          \
+    assert(api_ptr_);                                        \
+    return api_ptr_->NAME##Post(request);                    \
   }
 
-  DISPATCH(spawn)
+  DISPATCH(spawn, io::swagger::client::api::SpawnRequest)
+  DISPATCH(start, io::swagger::client::api::StartSimulationRequest)
+#undef DISPATCH
+
+#define DISPATCH(NAME, REQUEST_TYPE)                                          \
+  decltype(auto) NAME(boost::optional<std::shared_ptr<REQUEST_TYPE>> request) \
+  {                                                                           \
+    assert(api_ptr_);                                                         \
+    return api_ptr_->NAME##Post(request);                                     \
+  }
 #undef DISPATCH
 
 private:
