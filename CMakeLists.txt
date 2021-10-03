@@ -21,19 +21,6 @@ find_package(pugixml REQUIRED)
 find_package(Boost COMPONENTS filesystem REQUIRED)
 
 ament_auto_find_build_dependencies()
-ament_auto_add_library(unisim_ros2_control_component SHARED
-  src/unisim_ros2_control.cpp
-)
-target_link_libraries(unisim_ros2_control_component pugixml ${Boost_LIBRARIES})
-
-rclcpp_components_register_nodes(unisim_ros2_control_component
-  "unisim_ros2_control::UniSimRos2ControlComponent")
-
-ament_auto_add_executable(unisim_ros2_control_node
-  src/unisim_ros2_control.cpp
-  src/unisim_ros2_control_node.cpp
-)
-target_link_libraries(unisim_ros2_control_node pugixml ${Boost_LIBRARIES})
 
 set(cmake_commands)
 set(cmake_configure_args -DCPPREST_ROOT=/usr/include/cpprest)
@@ -62,6 +49,23 @@ install(
   DESTINATION
     include/unisim_ros2_control
 )
+
+include_directories(include/unisim_ros2_control)
+ament_auto_add_library(unisim_ros2_control_component SHARED
+  src/unisim_ros2_control.cpp
+)
+target_link_libraries(unisim_ros2_control_component pugixml ${Boost_LIBRARIES})
+add_dependencies(unisim_ros2_control_component unisim_openapi_interface)
+
+rclcpp_components_register_nodes(unisim_ros2_control_component
+  "unisim_ros2_control::UniSimRos2ControlComponent")
+
+ament_auto_add_executable(unisim_ros2_control_node
+  src/unisim_ros2_control.cpp
+  src/unisim_ros2_control_node.cpp
+)
+target_link_libraries(unisim_ros2_control_node pugixml ${Boost_LIBRARIES})
+add_dependencies(unisim_ros2_control_node unisim_openapi_interface)
 
 install(TARGETS
   unisim_ros2_control_node
