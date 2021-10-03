@@ -28,13 +28,15 @@ public:
   {
     if (port > std::numeric_limits<std::uint16_t>::max()) {
       throw std::out_of_range(
-        "port number is,", port, "overs range of std::uint16_t, maximun value of port should be ",
-        std::numeric_limits<std::uint16_t>::max());
+        "port number is," + std::to_string(port) +
+        "overs range of std::uint16_t, maximun value of port should be " +
+        std::to_string(std::numeric_limits<std::uint16_t>::max()));
     }
     if (port < std::numeric_limits<std::uint16_t>::min()) {
       throw std::out_of_range(
-        "port number is,", port, "overs range of std::uint16_t, minimum value of port should be ",
-        std::numeric_limits<std::uint16_t>::min());
+        "port number is," + std::to_string(port) +
+        "overs range of std::uint16_t, minimum value of port should be " +
+        std::to_string(std::numeric_limits<std::uint16_t>::min()));
     }
     configure(address, static_cast<std::uint16_t>(port));
   }
