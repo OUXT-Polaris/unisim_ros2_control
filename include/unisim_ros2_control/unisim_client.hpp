@@ -41,6 +41,43 @@ public:
     configure(address, static_cast<std::uint16_t>(port));
   }
 
+/**
+ * @brief dispatch macro for the non-parameter post request.
+ */
+#define DISPATCH(NAME)             \
+  decltype(auto) NAME##Request()   \
+  {                                \
+    assert(api_ptr_);              \
+    return api_ptr_->NAME##Post(); \
+  }
+  DISPATCH(stop)
+#undef DISPATCH
+
+/**
+ * @brief dispatch macro for the required post request.
+ */
+#define DISPATCH(NAME, REQUEST_TYPE)                                  \
+  decltype(auto) NAME##Request(std::shared_ptr<REQUEST_TYPE> request) \
+  {                                                                   \
+    assert(api_ptr_);                                                 \
+    return api_ptr_->NAME##Post(request);                             \
+  }
+
+  DISPATCH(spawn, io::swagger::client::api::SpawnRequest)
+  DISPATCH(start, io::swagger::client::api::StartSimulationRequest)
+#undef DISPATCH
+
+/**
+ * @brief dispatch macro for the non-required post request.
+ */
+#define DISPATCH(NAME, REQUEST_TYPE)                                                   \
+  decltype(auto) NAME##Request(boost::optional<std::shared_ptr<REQUEST_TYPE>> request) \
+  {                                                                                    \
+    assert(api_ptr_);                                                                  \
+    return api_ptr_->NAME##Post(request);                                              \
+  }
+#undef DISPATCH
+
 private:
   void configure(const std::string & address, std::int16_t port);
   std::shared_ptr<io::swagger::client::api::ApiClient> api_client_;
