@@ -55,7 +55,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/unisim_openapi_interface-prefix/
 ament_auto_add_library(unisim_ros2_control_component SHARED
   src/unisim_ros2_control.cpp
 )
-target_link_libraries(unisim_ros2_control_component pugixml ${Boost_LIBRARIES})
+target_link_libraries(unisim_ros2_control_component pugixml ${Boost_LIBRARIES} ssl crypto)
 add_dependencies(unisim_ros2_control_component unisim_openapi_interface)
 
 rclcpp_components_register_nodes(unisim_ros2_control_component
@@ -65,7 +65,7 @@ ament_auto_add_executable(unisim_ros2_control_node
   src/unisim_ros2_control.cpp
   src/unisim_ros2_control_node.cpp
 )
-target_link_libraries(unisim_ros2_control_node pugixml ${Boost_LIBRARIES})
+target_link_libraries(unisim_ros2_control_node pugixml ${Boost_LIBRARIES} ssl crypto)
 add_dependencies(unisim_ros2_control_node unisim_openapi_interface)
 
 install(TARGETS
