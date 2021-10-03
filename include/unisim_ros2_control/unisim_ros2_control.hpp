@@ -61,11 +61,10 @@ extern "C" {
 #include <ApiClient.h>
 #include <urdf_parser/urdf_parser.h>
 
+#include <memory>
 #include <pugixml.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
-
-#include <memory>
 
 namespace unisim_ros2_control
 {
