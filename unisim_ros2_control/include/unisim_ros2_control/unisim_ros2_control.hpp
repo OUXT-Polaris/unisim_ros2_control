@@ -64,6 +64,9 @@ extern "C" {
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
 
+#include <boost/asio/ssl/stream_base.hpp>
+#include <unisim_client/unisim_openapi_interface/ApiClient.h>
+
 namespace unisim_ros2_control
 {
 class RobotDescriptionQos : public rclcpp::QoS
