@@ -50,7 +50,8 @@ install(
     include/unisim_ros2_control
 )
 
-include_directories(include/unisim_ros2_control)
+message(${CMAKE_CURRENT_BINARY_DIR}/unisim_openapi_interface-prefix/src/unisim_openapi_interface)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/unisim_openapi_interface-prefix/src/unisim_openapi_interface)
 ament_auto_add_library(unisim_ros2_control_component SHARED
   src/unisim_ros2_control.cpp
 )

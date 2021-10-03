@@ -58,6 +58,7 @@ extern "C" {
 }  // extern "C"
 #endif
 
+#include <ApiClient.h>
 #include <urdf_parser/urdf_parser.h>
 
 #include <pugixml.hpp>
