@@ -58,8 +58,10 @@ extern "C" {
 }  // extern "C"
 #endif
 
+#include <ApiClient.h>
 #include <urdf_parser/urdf_parser.h>
 
+#include <memory>
 #include <pugixml.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
@@ -86,6 +88,8 @@ private:
   std::string getExtension(const std::string & path);
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr description_sub_;
   std::string urdf_output_directory_;
+  std::shared_ptr<io::swagger::client::api::ApiClient> api_client_ptr_;
+  io::swagger::client::api::ApiConfiguration api_configuration_;
 };
 }  // namespace unisim_ros2_control
 
