@@ -62,6 +62,7 @@ extern "C" {
 #include <urdf_parser/urdf_parser.h>
 
 #include <boost/asio/ssl/stream_base.hpp>
+#include <memory>
 #include <pugixml.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
@@ -88,6 +89,10 @@ private:
   std::string getExtension(const std::string & path);
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr description_sub_;
   std::string urdf_output_directory_;
+  std::string api_ip_address_;
+  std::uint16_t api_port_;
+  std::shared_ptr<io::swagger::client::api::ApiClient> swagger_client_ptr_;
+  io::swagger::client::api::ApiConfiguration swagger_configuration_;
 };
 }  // namespace unisim_ros2_control
 

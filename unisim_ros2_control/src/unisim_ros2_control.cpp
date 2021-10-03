@@ -25,6 +25,20 @@ UniSimRos2ControlComponent::UniSimRos2ControlComponent(const rclcpp::NodeOptions
 {
   declare_parameter<std::string>("urdf_output_directory", "/tmp/unisim_ros2_control");
   urdf_output_directory_ = get_parameter("urdf_output_directory").as_string();
+  /**
+   * @note initialize Swagger-generated client
+   */
+  declare_parameter<std::string>("api_ip_address", "localhost");
+  api_ip_address_ = get_parameter("api_ip_address").as_string();
+  declare_parameter<int>("api_port", 8080);
+  api_port_ = get_parameter("api_port").as_int();
+  swagger_configuration_.setBaseUrl(
+    "http://" + api_ip_address_ + ":" + std::to_string(api_port_) + "/v2/");
+  web::http::client::http_client_config config;
+  swagger_configuration_.setHttpConfig(config);
+  /**
+   * @note make directory for URDF and start subscribe "/robot_description" topic. (latched)
+   */
   makeDirectory(urdf_output_directory_);
   description_sub_ = create_subscription<std_msgs::msg::String>(
     "robot_description", RobotDescriptionQos(),
