@@ -65,6 +65,7 @@ extern "C" {
 #include <pugixml.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
+#include <unisim_ros2_control/unisim_client.hpp>
 
 namespace unisim_ros2_control
 {
@@ -79,6 +80,7 @@ class UniSimRos2ControlComponent : public rclcpp::Node
 public:
   UNISIM_ROS2_CONTROL_UNISIM_ROS2_CONTROL_COMPONENT_PUBLIC
   explicit UniSimRos2ControlComponent(const rclcpp::NodeOptions & options);
+  void spawn(const std::string & urdf_path);
 
 private:
   void robotDescriptionCallback(const std_msgs::msg::String::SharedPtr description);
@@ -88,8 +90,7 @@ private:
   std::string getExtension(const std::string & path);
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr description_sub_;
   std::string urdf_output_directory_;
-  std::shared_ptr<io::swagger::client::api::ApiClient> api_client_ptr_;
-  io::swagger::client::api::ApiConfiguration api_configuration_;
+  std::shared_ptr<unisim_ros2_control::UnisimClient> unisim_client_;
 };
 }  // namespace unisim_ros2_control
 

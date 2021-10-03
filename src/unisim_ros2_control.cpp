@@ -15,9 +15,11 @@
 #include <ament_index_cpp/get_package_share_directory.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
+#include <limits>
 #include <rclcpp/qos.hpp>
 #include <sstream>
 #include <unisim_ros2_control/unisim_ros2_control.hpp>
+
 namespace unisim_ros2_control
 {
 UniSimRos2ControlComponent::UniSimRos2ControlComponent(const rclcpp::NodeOptions & options)
@@ -25,6 +27,9 @@ UniSimRos2ControlComponent::UniSimRos2ControlComponent(const rclcpp::NodeOptions
 {
   declare_parameter<std::string>("urdf_output_directory", "/tmp/unisim_ros2_control");
   urdf_output_directory_ = get_parameter("urdf_output_directory").as_string();
+  declare_parameter<int>("api_port", 8080);
+  int api_port = get_parameter("api_port").as_int();
+  unisim_client_ = std::make_shared<unisim_ros2_control::UnisimClient>("localhost", api_port);
   makeDirectory(urdf_output_directory_);
   description_sub_ = create_subscription<std_msgs::msg::String>(
     "robot_description", RobotDescriptionQos(),
