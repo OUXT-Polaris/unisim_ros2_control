@@ -65,6 +65,8 @@ extern "C" {
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
 
+#include <memory>
+
 namespace unisim_ros2_control
 {
 class RobotDescriptionQos : public rclcpp::QoS
@@ -87,6 +89,8 @@ private:
   std::string getExtension(const std::string & path);
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr description_sub_;
   std::string urdf_output_directory_;
+  std::shared_ptr<io::swagger::client::api::ApiClient> api_client_ptr_;
+  io::swagger::client::api::ApiConfiguration api_configuration_;
 };
 }  // namespace unisim_ros2_control
 
