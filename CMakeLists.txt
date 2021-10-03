@@ -51,10 +51,12 @@ install(
 )
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/unisim_openapi_interface-prefix/src/unisim_openapi_interface)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/unisim_openapi_interface-prefix/src/unisim_openapi_interface/model)
 link_directories(${CMAKE_CURRENT_BINARY_DIR}/unisim_openapi_interface-prefix/src/unisim_openapi_interface/lib)
 
 ament_auto_add_library(unisim_ros2_control_component SHARED
   src/unisim_ros2_control.cpp
+  src/unisim_client.cpp
 )
 set_property(TARGET unisim_ros2_control_component PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(unisim_ros2_control_component pugixml ${Boost_LIBRARIES} ssl crypto cpprest CppRestSwaggerClient)

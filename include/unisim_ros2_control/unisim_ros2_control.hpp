@@ -65,6 +65,7 @@ extern "C" {
 #include <pugixml.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
+#include <unisim_ros2_control/unisim_client.hpp>
 
 namespace unisim_ros2_control
 {
@@ -88,8 +89,7 @@ private:
   std::string getExtension(const std::string & path);
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr description_sub_;
   std::string urdf_output_directory_;
-  std::shared_ptr<io::swagger::client::api::ApiClient> api_client_ptr_;
-  io::swagger::client::api::ApiConfiguration api_configuration_;
+  std::shared_ptr<unisim_ros2_control::UnisimClient> client_;
 };
 }  // namespace unisim_ros2_control
 
