@@ -41,6 +41,17 @@ public:
     configure(address, static_cast<std::uint16_t>(port));
   }
 
+#define DISPATCH(NAME)                                              \
+  template <typename... Ts>                                         \
+  decltype(auto) NAME(Ts &&... xs)                                  \
+  {                                                                 \
+    assert(api_ptr_);                                               \
+    return api_ptr_->NAME##Post(std::forward<decltype(xs)>(xs)...); \
+  }
+
+  DISPATCH(spawn)
+#undef DISPATCH
+
 private:
   void configure(const std::string & address, std::int16_t port);
   std::shared_ptr<io::swagger::client::api::ApiClient> api_client_;
