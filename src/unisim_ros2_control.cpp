@@ -143,6 +143,22 @@ void UniSimRos2ControlComponent::robotDescriptionCallback(
   }
   doc.save_file(urdf_path.c_str(), "  ");
   RCLCPP_INFO_STREAM(get_logger(), "URDF file was generated at " << urdf_path);
+  io::swagger::client::api::SpawnRequest spawn_request;
+  spawn_request.setUrdfPath(urdf_path);
+  io::swagger::client::api::Point point;
+  point.setX(0.0);
+  point.setY(0.0);
+  point.setZ(0.0);
+  io::swagger::client::api::Quaternion orientation;
+  orientation.setX(0);
+  orientation.setY(0);
+  orientation.setZ(0);
+  orientation.setW(1);
+  io::swagger::client::api::Pose pose;
+  pose.setOrientation(std::make_shared<io::swagger::client::api::Quaternion>(orientation));
+  pose.setPosition(std::make_shared<io::swagger::client::api::Point>(point));
+  spawn_request.setPose(std::make_shared<io::swagger::client::api::Pose>(pose));
+  unisim_client_->spawnRequest(std::make_shared<io::swagger::client::api::SpawnRequest>(spawn_request));
 }
 
 }  // namespace unisim_ros2_control
